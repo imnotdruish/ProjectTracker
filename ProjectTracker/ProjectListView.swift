@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ProjectListView.swift
 //  ProjectTracker
 //
 //  Created by Dan June on 6/24/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ProjectListView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +20,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ProjectListView()
 }
