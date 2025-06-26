@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ProjectCardView: View {
     
-//    var name: String
-//    var currentFocus: String
+    var project: Project
     
     var body: some View {
     
@@ -20,18 +19,18 @@ struct ProjectCardView: View {
                 .shadow(radius: 5, x: 0, y: 4)
             
             VStack(alignment: .leading, spacing: 10) {
-                Text("CodeWithChris")
+                Text(project.name)
                     .font(.bigHeadline)
                     .foregroundStyle(.white)
                 HStack(alignment: .center, spacing: 12) {
                     
                     Spacer()
                     
-                    StatBubbleView(title: "Hours", stat: "290", gradientStartColor: Color("Navy"), gradientEndColor: Color("Blue"))
+                    StatBubbleView(title: "Hours", stat: "290", gradientStartColor: Color("Navy"), gradientEndColor: Color("Sky Blue"))
                     
-                    StatBubbleView(title: "Sessions", stat: "34", gradientStartColor: Color("Green"), gradientEndColor: Color("Olive"))
+                    StatBubbleView(title: "Sessions", stat: "34", gradientStartColor: Color("Turtle Green"), gradientEndColor: Color("Olive"))
                     
-                    StatBubbleView(title: "Updates", stat: "32", gradientStartColor: Color("Maroon"), gradientEndColor: Color("Orchid"))
+                    StatBubbleView(title: "Updates", stat: "32", gradientStartColor: Color("Maroon"), gradientEndColor: Color("Fuschia"))
                     
                     StatBubbleView(title: "Wins", stat: "9", gradientStartColor: Color("Maroon"), gradientEndColor: Color("Lime"))
                     
@@ -53,5 +52,5 @@ struct ProjectCardView: View {
 }
 
 #Preview {
-    ProjectCardView()
+    ProjectCardView(project: Project())
 }

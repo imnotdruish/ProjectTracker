@@ -34,5 +34,5 @@ struct StatBubbleView: View {
 }
 
 #Preview {
-    StatBubbleView(title: "Hours", stat: "290", gradientStartColor: Color("Navy"), gradientEndColor: Color("Blue"))
+    StatBubbleView(title: "Hours", stat: "290", gradientStartColor: Color("Navy"), gradientEndColor: Color("Sky Blue"))
 }
