@@ -9,12 +9,7 @@ import SwiftUI
 
 struct ProjectUpdateView: View {
     
-    var project: Project
-    var date: String
-    var hours: Double
-    var bgColor: String
-    var projectHeadline: String
-    var projectSummary: String
+    var update: ProjectUpdate
     
     var body: some View {
         ZStack {
@@ -24,21 +19,21 @@ struct ProjectUpdateView: View {
             
             VStack(alignment: .leading) {
                 HStack {
-                    Text(date)
+                    Text(DateHelper.projectUpdateDate(inputDate: update.date))
                         .padding(.leading)
                     Spacer()
-                    Text("\(hours, specifier: "%.1f") Hours")
+                    Text("\(update.hours, specifier: "%.2f") Hours")
                         .padding(.trailing)
                 }
                 .padding(.vertical, 10)
                 .background {
-                    Color(bgColor)
+                    Color("Orchid")
                 }
-                Text(projectHeadline)
+                Text(update.headline)
                     .font(.smallHeadline)
                     .padding(.horizontal)
                     .padding(.bottom, 10)
-                Text(projectSummary)
+                Text(update.summary)
                     .padding(.horizontal)
                     .padding(.bottom, 10)
             }
@@ -51,5 +46,5 @@ struct ProjectUpdateView: View {
 }
 
 #Preview {
-    ProjectUpdateView(project: Project(), date: "Thursday, September 16, 2023", hours: 9, bgColor: "Orchid", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
+    ProjectUpdateView(update: ProjectUpdate())
 }

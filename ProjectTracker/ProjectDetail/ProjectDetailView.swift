@@ -12,6 +12,7 @@ struct ProjectDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     var project: Project
+    @State private var update: ProjectUpdate?
     
     var body: some View {
         ZStack {
@@ -68,12 +69,10 @@ struct ProjectDetailView: View {
                 // Project Updates
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 27) {
-                        ProjectUpdateView(project: Project(), date: "Thursday, September 16, 2023", hours: 9, bgColor: "Orchid", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
-                        ProjectUpdateView(project: Project(), date: "Milestone Acheieved", hours: 5, bgColor: "Turtle Green", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
-                        ProjectUpdateView(project: Project(), date: "Thursday, September 16, 2023", hours: 7, bgColor: "Orchid", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
-                        ProjectUpdateView(project: Project(), date: "Milestone Acheieved", hours: 2, bgColor: "Turtle Green", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
-                        ProjectUpdateView(project: Project(), date: "Thursday, September 16, 2023", hours: 10, bgColor: "Orchid", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
-                        ProjectUpdateView(project: Project(), date: "Thursday, September 16, 2023", hours: 3, bgColor: "Orchid", projectHeadline: "Project Headline", projectSummary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Manecenas sit amet lacinia dolor. Etiam rhoncus et ante ac cursus. Vestibulu frinilla venenatis. Donec et porta mauris.")
+                        
+                        ForEach(project.updates) { update in
+                            ProjectUpdateView(update: update)
+                        }
                     }
                     .padding()
                     .padding(.bottom, 80)
@@ -85,7 +84,8 @@ struct ProjectDetailView: View {
                 
                 HStack {
                     Button(action: {
-                        
+                        // Add Project Update
+                        self.update = ProjectUpdate()
                     }, label: {
                         ZStack {
                             Circle()
@@ -114,6 +114,10 @@ struct ProjectDetailView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .sheet(item: $update) { update in
+            AddUpdateView(project: project, update: update)
+                .presentationDetents([.fraction(0.3)])
+        }
     }
 }
 
