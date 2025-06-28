@@ -10,6 +10,7 @@ import SwiftData
 
 struct ProjectDetailView: View {
     
+    @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     var project: Project
     @State private var newUpdate: ProjectUpdate?
@@ -37,13 +38,13 @@ struct ProjectDetailView: View {
                         
                         Spacer()
                         
-                        StatBubbleView(title: "Hours", stat: "290", gradientStartColor: Color("Navy"), gradientEndColor: Color("Sky Blue"))
+                        StatBubbleView(title: "Hours", stat: String(project.hours), gradientStartColor: Color("Navy"), gradientEndColor: Color("Sky Blue"))
                         
-                        StatBubbleView(title: "Sessions", stat: "34", gradientStartColor: Color("Turtle Green"), gradientEndColor: Color("Olive"))
+                        StatBubbleView(title: "Sessions", stat: String(project.sessions), gradientStartColor: Color("Turtle Green"), gradientEndColor: Color("Olive"))
                         
-                        StatBubbleView(title: "Updates", stat: "32", gradientStartColor: Color("Maroon"), gradientEndColor: Color("Fuschia"))
+                        StatBubbleView(title: "Updates", stat: String(project.updates.count), gradientStartColor: Color("Maroon"), gradientEndColor: Color("Fuschia"))
                         
-                        StatBubbleView(title: "Wins", stat: "9", gradientStartColor: Color("Maroon"), gradientEndColor: Color("Lime"))
+                        StatBubbleView(title: "Wins", stat: String(project.wins), gradientStartColor: Color("Maroon"), gradientEndColor: Color("Lime"))
                         
                         Spacer()
                     }
@@ -153,6 +154,9 @@ struct ProjectDetailView: View {
         update.headline = "Milestone Acheived"
         update.summary = project.focus
         project.updates.insert(update, at: 0)
+        
+        // Update the stats
+        StatHelper.updateAdded(project: project, update: update)
 
         // Clear the project focus
         withAnimation {

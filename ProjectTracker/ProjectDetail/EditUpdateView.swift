@@ -43,6 +43,10 @@ struct EditUpdateView: View {
                         .frame(width: 60)
                     
                     Button(isEditMode ? "Save" : "Add", action: {
+
+                        // Keep track of the difference in hours for an edit update
+                        let hoursDifference = update.hours - Double(hours)!
+                        
                         update.headline = headline
                         update.summary = summary
                         update.hours = Double(hours)!
@@ -50,6 +54,18 @@ struct EditUpdateView: View {
                         if !isEditMode {
                             // Add Project Update
                             project.updates.insert(update, at: 0)
+
+                            // Force a SwiftData save
+                            try? context.save()
+
+                            // Update stats
+                            StatHelper.updateAdded(project: project, update: update)
+
+                        } else {
+
+                            // Edit Project Update
+                            // Update Stats
+                            StatHelper.updateEdited(project: project, hoursDifference: hoursDifference)
                         }
                         
                         dismiss()
@@ -79,13 +95,19 @@ struct EditUpdateView: View {
                 project.updates.removeAll { u in
                     u.id == update.id
                 }
+                // Force a SwiftData save
+                try? context.save()
+                
+                // Delete updates
+                StatHelper.updateDeleted(project: project, update: update)
+                
                 dismiss()
             }
         }
         .onAppear {
             headline = update.headline
             summary = update.summary
-            hours = String(update.hours)
+            hours = String(Int(update.hours))
         }
     }
 }

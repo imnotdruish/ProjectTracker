@@ -28,7 +28,7 @@ struct ProjectUpdateView: View {
                             .padding(.trailing)
                             .foregroundStyle(.yellow)
                     } else {
-                        Text("\(update.hours, specifier: "%.2f") Hours")
+                        Text("\(String(Int(update.hours))) Hours")
                             .padding(.trailing)
                     }
                 }
