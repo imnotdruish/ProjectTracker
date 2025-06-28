@@ -22,12 +22,19 @@ struct ProjectUpdateView: View {
                     Text(DateHelper.projectUpdateDate(inputDate: update.date))
                         .padding(.leading)
                     Spacer()
-                    Text("\(update.hours, specifier: "%.2f") Hours")
-                        .padding(.trailing)
+                    // Display star if milestone, otherwise hours
+                    if update.updateType == .milestone {
+                        Image(systemName: "star.fill")
+                            .padding(.trailing)
+                            .foregroundStyle(.yellow)
+                    } else {
+                        Text("\(update.hours, specifier: "%.2f") Hours")
+                            .padding(.trailing)
+                    }
                 }
                 .padding(.vertical, 10)
                 .background {
-                    Color("Orchid")
+                    Color(update.updateType == .milestone ? "Persian Blue" : "Orchid")
                 }
                 Text(update.headline)
                     .font(.smallHeadline)
