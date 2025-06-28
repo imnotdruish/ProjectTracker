@@ -1,5 +1,5 @@
 //
-//  AddUpdateView.swift
+//  EditUpdateView.swift
 //  ProjectTracker
 //
 //  Created by Dan June on 6/27/25.
@@ -8,17 +8,19 @@
 import SwiftUI
 import SwiftData
 
-struct AddUpdateView: View {
+struct EditUpdateView: View {
     
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
     var project: Project
     var update: ProjectUpdate
+    var isEditMode: Bool
     
     @State private var headline: String = ""
     @State private var summary: String = ""
     @State private var hours: String = ""
+    @State private var showConfirmation: Bool = false
     
     var body: some View {
         ZStack {
@@ -26,7 +28,7 @@ struct AddUpdateView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                Text("New Update")
+                Text(isEditMode ? "Edit Update" : "Add Update")
                     .font(.bigHeadline)
                     .foregroundStyle(.white)
 
@@ -40,16 +42,29 @@ struct AddUpdateView: View {
                         .keyboardType(.numberPad)
                         .frame(width: 60)
                     
-                    Button("Save", action: {
-                        // Save Project Update
+                    Button(isEditMode ? "Save" : "Add", action: {
                         update.headline = headline
                         update.summary = summary
                         update.hours = Double(hours)!
-                        project.updates.insert(update, at: 0)
+
+                        if !isEditMode {
+                            // Add Project Update
+                            project.updates.insert(update, at: 0)
+                        }
+                        
                         dismiss()
                     })
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
+                    
+                    if isEditMode {
+                        Button("Delete") {
+                            // Show confirmation dialog
+                            showConfirmation = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                    }
                 }
 
                 Spacer()
@@ -58,9 +73,23 @@ struct AddUpdateView: View {
             .padding(.horizontal)
             .padding(.top)
         }
+        .confirmationDialog("Really delete this update?", isPresented: $showConfirmation) {
+            Button("Yes, delete it") {
+                // Remove all updates from the project with the same id
+                project.updates.removeAll { u in
+                    u.id == update.id
+                }
+                dismiss()
+            }
+        }
+        .onAppear {
+            headline = update.headline
+            summary = update.summary
+            hours = String(update.hours)
+        }
     }
 }
 
 #Preview {
-    AddUpdateView(project: Project(), update: ProjectUpdate())
+    EditUpdateView(project: Project(), update: ProjectUpdate(), isEditMode: false)
 }

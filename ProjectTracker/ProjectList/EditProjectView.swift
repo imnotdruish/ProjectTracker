@@ -45,7 +45,7 @@ struct EditProjectView: View {
                     })
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
-                    .disabled(projectName.isEmpty)
+                    .disabled(projectName.trimmingCharacters(in: .whitespacesAndNewlines) == "")
                     
                     if isEditMode {
                         // Show Delete button
