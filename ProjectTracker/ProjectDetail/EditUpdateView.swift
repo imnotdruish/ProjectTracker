@@ -45,7 +45,7 @@ struct EditUpdateView: View {
                     Button(isEditMode ? "Save" : "Add", action: {
 
                         // Keep track of the difference in hours for an edit update
-                        let hoursDifference = update.hours - Double(hours)!
+                        let hoursDifference = Double(hours)! - update.hours
                         
                         update.headline = headline
                         update.summary = summary
