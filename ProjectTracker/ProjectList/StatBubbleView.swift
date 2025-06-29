@@ -24,6 +24,7 @@ struct StatBubbleView: View {
                     .font(.captionText)
 
                 Text(TextHelper.convertStat(input: Double(stat)))
+                    .contentTransition(.numericText())
                     .font(.featuredNumber)
                     .bold()
             }

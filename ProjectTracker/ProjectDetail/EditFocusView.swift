@@ -30,8 +30,10 @@ struct EditFocusView: View {
                         .textFieldStyle(.roundedBorder)
                     
                     Button("Save") {
-                        // Save focus for the project
-                        project.focus = focus
+                        withAnimation {
+                            // Save focus for the project
+                            project.focus = focus
+                        }
                         dismiss()
                     }
                     .buttonStyle(.borderedProminent)
